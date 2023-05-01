@@ -65,6 +65,9 @@ router.get("/posts", async (req, res) => {
 router.get("/posts/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
+    if (!postId) {
+      return res.status(404).json({ errorMessage: "게시글이 존재하지않습니다." });
+    };
     const post = await Posts.findOne({
       attributes: [
         "postId",
