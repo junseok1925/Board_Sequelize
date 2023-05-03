@@ -1,5 +1,10 @@
 'use strict';
 const { Model } = require('sequelize');
+/**
+ * @param {import("sequelize").Sequelize} sequelize - Sequelize
+ * @param {import("sequelize").DataTypes} DataTypes - Sequelize Column DataTypes
+ * @return {Model} - Sequelize Model
+ * **/
 module.exports = (sequelize, DataTypes) => {
   class Posts extends Model {
     /**
@@ -8,52 +13,58 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.Users, {
+        targetKey: 'userId',
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+      });
 
-      // N : 1  관계
-      // 1. Posts 모델에서
-      this.belongsTo(models.Users, { // 2. Users 모델에게 N:1 관계 설정을 합니다.
-        targetKey: 'userId', // 3. Users 모델의 userId 컬럼을
-        foreignKey: 'UserId', // 4. Posts 모델의 UserId 컬럼과 연결합니다.
+      this.hasMany(models.Likes, {
+        sourceKey: 'postId',
+        foreignKey: 'postId',
+      });
+      this.hasMany(models.Comments, {
+        sourceKey: 'postId',
+        foreignKey: 'postId',
       });
     }
   }
 
   Posts.init(
     {
-			postId: {
-				allowNull: false,
-				autoIncrement: true,
-				primaryKey: true,
-				type: DataTypes.INTEGER,
-			},
-			userId: {
-				allowNull: false,
-				type: DataTypes.INTEGER,
-			},
-			nickname: {
-				allowNull: false,
-				type: DataTypes.STRING,
-			},
-			title: {
-				allowNull: false,
-				type: DataTypes.STRING,
-			},
-			content: {
-				allowNull: false,
-				type: DataTypes.STRING,
-			},
-			createdAt: {
-				allowNull: false,
-				type: DataTypes.DATE,
-				defaultValue: DataTypes.NOW,
-			},
-			updatedAt: {
-				allowNull: false,
-				type: DataTypes.DATE,
-				defaultValue: DataTypes.NOW,
-			},
-		},
+      postId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      title: {
+        type: DataTypes.STRING(40),
+        allowNull: false,
+      },
+      nickname: {
+        type: DataTypes.STRING(40),
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.STRING(3000),
+        allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+    },
     {
       sequelize,
       modelName: 'Posts',

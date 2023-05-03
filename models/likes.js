@@ -1,85 +1,62 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
+/**
+ * @param {import("sequelize").Sequelize} sequelize - Sequelize
+ * @param {import("sequelize").DataTypes} DataTypes - Sequelize Column DataTypes
+ * @return {Model} - Sequelize Model
+ * **/
 module.exports = (sequelize, DataTypes) => {
-  class Comments extends Model {
+  class Likes extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-
       this.belongsTo(models.Users, {
         targetKey: 'userId',
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
         onDelete: 'CASCADE',
       });
-
       this.belongsTo(models.Posts, {
         targetKey: 'postId',
-        foreignKey: 'PostId',
+        foreignKey: 'postId',
         onDelete: 'CASCADE',
       });
     }
   }
-  Comments.init(
+
+  Likes.init(
     {
-      commentId: {
+      likeId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      userId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: {
-          model: "users",
-          key: "userId",
-        },
-        onDelete: "CASCADE",
-      },
-      nickname: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
       postId: {
-        allowNull: false,
         type: DataTypes.INTEGER,
-        references: {
-          model: "posts",
-          key: "postId",
-        },
-        onDelete: "CASCADE",
-      },
-      comment: {
         allowNull: false,
-        type: DataTypes.STRING,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATE,
-				defaultValue: DataTypes.NOW,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: DataTypes.DATE,
-				defaultValue: DataTypes.NOW,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
       sequelize,
-      modelName: "Comments",
+      modelName: 'Likes',
     }
   );
-  return Comments;
+  return Likes;
 };

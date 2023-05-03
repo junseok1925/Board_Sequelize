@@ -22,7 +22,7 @@ router.post("/posts", authMiddleware, async (req, res) => {
 
     const createPost = await Posts.create({
       userId: userId,
-      nickname: nickname,
+      nickname,
       title,
       content,
     });

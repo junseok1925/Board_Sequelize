@@ -30,6 +30,10 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.STRING,
 			},
+			likes: {						// 좋아요 기능때문에 추가
+				type: Sequelize.INTEGER,
+				defaultValue: 0,
+			  },
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,              // 값을 지정,넣어 주지 않으면 자동으로 할당되는 기본값을 지정 ( .DATE : 현재시간을 반환 ) 즉, 값을 안넣어도 자동으로 현재시간을 반환
