@@ -54,19 +54,19 @@ router.get("/posts/like", authMiddleware, async (req, res) => {
     });
 
     // likePosts배열의 객체를 이용해 posts배열을 생성
-    const likesPost = likePosts.map((post) => {
+    const postsLiked = likePosts.map((post) => {
       return {
-        postId: likesPost.postId,
-        userId: likesPost.Post.userId,
-        nickname: likesPost.Post.nickname,
-        title: likesPost.Post.title,
-        likes: likesPost.Post.likes,
-        createdAt: likesPost.Post.createdAt,
-        updatedAt: likesPost.Post.updatedAt,
+        postId: post.postId,
+        userId: post.Post.userId,
+        nickname: post.Post.nickname,
+        title: post.Post.title,
+        likes: post.Post.likes,
+        createdAt: post.Post.createdAt,
+        updatedAt: post.Post.updatedAt,
       };
     });
 
-    return res.status(200).json({ posts });
+    return res.status(200).json({ postsLiked });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "게시글 좋아요에 실패하였습니다." });
